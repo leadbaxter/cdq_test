@@ -81,12 +81,12 @@ describe "Application 'cdq_sums'" do
 
   it "can select sum of integers" do
     create_three_rows
-    Weather.sum(:readings).should == 3
+    Weather.sum(:readings).should == 6
   end
 
   it "can select sum of floats" do
     create_three_rows
-    Weather.sum(:inches_f).should == 3
+    Weather.sum(:inches_f).should == 7.5
   end
 
   it "can select average of integers" do
