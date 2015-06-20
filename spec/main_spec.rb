@@ -73,12 +73,14 @@ module Cdq_sums
       Weather.sort_by(:readings).inject(0.0) {|v, w| v += w.inches_f }.should == 7.5
     end
 
-    # Maybe I don't know what I'm doing?
     it "can select row via equality operation - by applying :first" do
       Weather.where(:readings).eq(3).first.readings.should == 3
     end
 
-    # Maybe I don't know what I'm doing?
+    it "can select row via equality operation - by applying :[]" do
+      Weather.where(:readings).eq(3)[0].readings.should == 3
+    end
+
     it "should raise error accessing an object selected via equality operator without applying :first" do
       ->{ Weather.where(:readings).eq(3).readings }.should.raise(NoMethodError)
     end
@@ -121,21 +123,19 @@ module Cdq_sums
       reversed.reject {|w| w.readings > 2}.map {|w| w.readings}.should == [ 2, 1 ]
     end
 
-    # Maybe I don't know what I'm doing?
-    it "can apply index [] operator to select rows" do
+    it "can apply index [] operator to select rows without sorting" do
       array  = []
-      array << Weather.sort_by(:readings)[0]
-      array << Weather.sort_by(:readings)[1]
-      array << Weather.sort_by(:readings)[-1]
+      array << Weather[0]
+      array << Weather[1]
+      array << Weather[2]
       array.inject(0) {|v, w| v += w.readings}.should == 6
     end
 
-    # Maybe I don't know what I'm doing?
-    it "can apply index [] operator to select rows sorted" do
+    it "can apply index [] operator to select rows with sorting" do
       array  = []
       array << Weather.sort_by(:readings)[0]
       array << Weather.sort_by(:readings)[1]
-      array << Weather.sort_by(:readings)[-1]
+      array << Weather.sort_by(:readings)[2]
       array.inject(0) {|v, w| v += w.readings}.should == 6
     end
 
